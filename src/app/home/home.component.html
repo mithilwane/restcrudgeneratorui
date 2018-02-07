@@ -1,0 +1,157 @@
+<mat-tab-group class="tab-group">
+  <mat-tab label="General">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>General</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput [(ngModel)]="classNameText" placeholder="ClassName">
+        </mat-form-field>
+        <br>
+        <mat-checkbox [checked]="superClass" (change)="superClass = !superClass">Super Class</mat-checkbox>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Database</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card>
+          <mat-checkbox [checked]="seqGen" (change)="seqGen = !seqGen">Sequence Generator</mat-checkbox>
+          <br>
+          <mat-form-field>
+            <input matInput [(ngModel)]="seqNameText" placeholder="Sequence Name">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input matInput [(ngModel)]="tableNameText" placeholder="Table Name">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input matInput [(ngModel)]="schemaNameText" placeholder="Schema">
+          </mat-form-field>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Fields">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Fields</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput [(ngModel)]="fieldNameText" placeholder="Field Name">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <input matInput [(ngModel)]="fieldType" placeholder="Field Type">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <input matInput [(ngModel)]="columnNameText" placeholder="Column Name">
+        </mat-form-field>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Annotations</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-grid-list cols="2" rowHeight="1.15:1">
+              <mat-grid-tile>
+                <mat-card style="width: 85%; height: 80%">
+                  <mat-card>
+                    <mat-form-field>
+                      <input matInput [(ngModel)]="annotationClassText" placeholder="Annotation Class">
+                    </mat-form-field>
+                  </mat-card>
+                  <br>
+                  <mat-card>
+                    <mat-card-header>
+                      <mat-card-title>Property</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <mat-grid-list cols="2" rowHeight="1.4:1">
+                        <mat-grid-tile>
+                          <mat-card>
+                            <mat-form-field>
+                              <input matInput [(ngModel)]="annotationNameText" placeholder="Annotation Property Name">
+                            </mat-form-field>
+                            <br>
+                            <mat-form-field>
+                              <input matInput [(ngModel)]="annotationValueText" placeholder="Annotation Property Value">
+                            </mat-form-field>
+                          </mat-card>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                          <mat-card style="width: 90%; height: 90%; padding: .4em">
+                            <mat-table [dataSource]="propDataSource">
+                              <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef> Property Name </mat-header-cell>
+                                <mat-cell *matCellDef="let property"> {{property.name}} </mat-cell>
+                              </ng-container>
+                              <ng-container matColumnDef="value">
+                                <mat-header-cell *matHeaderCellDef> Property Value </mat-header-cell>
+                                <mat-cell *matCellDef="let property"> {{property.value}} </mat-cell>
+                              </ng-container>
+                              <mat-header-row *matHeaderRowDef="propertyTableCol"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: propertyTableCol;"></mat-row>
+                            </mat-table>
+                          </mat-card>
+                        </mat-grid-tile>
+                      </mat-grid-list>
+                    </mat-card-content>
+                  </mat-card>
+                  <br>
+                  <button mat-raised-button color='primary'>Add Property</button>
+                </mat-card>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-card style="width: 85%; height: 80%">
+                  <mat-table [dataSource]="annotationDataSource">
+                    <ng-container matColumnDef="annotationName">
+                      <mat-header-cell *matHeaderCellDef> Annotation Class </mat-header-cell>
+                      <mat-cell *matCellDef="let ann"> {{ann.annotationName}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="annotationProperty.name">
+                      <mat-header-cell *matHeaderCellDef> Annotation Property Name </mat-header-cell>
+                      <mat-cell *matCellDef="let ann"> {{ann.annotationProperty.name}} </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="annotationTableCol"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: annotationTableCol;"></mat-row>
+                  </mat-table>
+                </mat-card>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </mat-card-content>
+          <button mat-raised-button color='primary'>Add Annotation</button>
+        </mat-card>
+        <br>
+        <button mat-raised-button color='primary'>Add Field</button>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
+<mat-card>
+  <button mat-raised-button color='primary'>Generate</button>
+  <button mat-raised-button color='accent'>Cancel</button>
+</mat-card>
+
+<!--
+<button mat-raised-button (click)="showAnswer()">Answer me</button>
+    <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+
+
+<div class="container color-dark">
+  <div class="col">
+    <p>Add a Class</p>
+  </div>
+</div>
+<div class="container color-light">
+    <form mat-form>
+      <label mat-label class="label">Class Name</label>
+      <input type="text" class="txt" name="item" placeholder="Class Name">
+      <input type="submit" class="btn" value="Add Item">
+    </form>
+</div>
+-->
